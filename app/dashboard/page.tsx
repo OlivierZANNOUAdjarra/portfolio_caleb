@@ -3,6 +3,8 @@ import { logout } from '@/app/actions/auth';
 import DashboardCommentRow from '@/components/DashboardCommentRow';
 import { LogOut, LayoutDashboard } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const comments = await getAllComments();
   const pending = comments.filter((c) => !c.approved);
