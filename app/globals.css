@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes sheen {
+  0% {
+    left: -60%;
+  }
+  100% {
+    left: 130%;
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink antialiased dark:bg-paper-dark dark:text-paper;
+  }
+
+  ::selection {
+    @apply bg-electric/30 text-ink;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-paper dark:bg-ink;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-electric/40 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-electric/70;
+  }
+
+  :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-electric;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .sheen-wrap {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .sheen-wrap::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: -60%;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(
+      115deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    pointer-events: none;
+  }
+  .sheen-wrap:hover::after,
+  .sheen-wrap.sheen-auto::after {
+    animation: sheen 2.6s ease-in-out infinite alternate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
