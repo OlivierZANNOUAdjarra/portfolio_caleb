@@ -21,14 +21,19 @@ function assertAdmin() {
 }
 
 export async function getApprovedComments(): Promise<Comment[]> {
-  const rows = await sql`
-    SELECT id, name, message, approved, created_at
-    FROM comments
-    WHERE approved = TRUE
-    ORDER BY created_at DESC
-    LIMIT 20
-  `;
-  return rows as Comment[];
+  try {
+    const rows = await sql`
+      SELECT id, name, message, approved, created_at
+      FROM comments
+      WHERE approved = TRUE
+      ORDER BY created_at DESC
+      LIMIT 20
+    `;
+    return rows as Comment[];
+  } catch (error) {
+    console.error('getApprovedComments a échoué (table absente ou DB indisponible) :', error);
+    return [];
+  }
 }
 
 export async function submitComment(
